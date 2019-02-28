@@ -6,18 +6,18 @@ import net.riadh.henri.model.Book
 
 class BookViewModel : ViewModel() {
     private val bookTitle = MutableLiveData<String>()
-    private val bookBody = MutableLiveData<String>()
+    private val bookCover = MutableLiveData<String>()
 
     fun bind(book: Book) {
         bookTitle.value = book.title
-        bookBody.value = book.synopsis[0]
+        bookCover.value = book.cover
     }
 
     fun getBookTitle(): MutableLiveData<String> {
         return bookTitle
     }
 
-    fun getBookBody(): MutableLiveData<String> {
-        return bookBody
+    fun getBookCover(): MutableLiveData<String> {
+        return bookCover
     }
 }

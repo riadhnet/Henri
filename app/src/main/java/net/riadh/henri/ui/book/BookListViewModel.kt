@@ -6,14 +6,16 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import net.riadh.henri.model.Book
 import net.riadh.henri.repository.BookRepositoryImpl
+import net.riadh.henri.ui.book.listener.BookClickListener
 import net.riadh.henri.util.ExceptionUtilInterface
 
 class BookListViewModel(
     private val bookApi: BookRepositoryImpl,
     private val exceptionUtil: ExceptionUtilInterface
-) : ViewModel() {
+) : ViewModel(), BookClickListener {
 
     private lateinit var subscription: Disposable
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
@@ -22,6 +24,8 @@ class BookListViewModel(
     val bookListAdapter: BookListAdapter = BookListAdapter()
 
     val errorClickListener = View.OnClickListener { loadBooks() }
+
+    val itemClicked :PublishSubject<Book> = PublishSubject.create()
 
     fun loadBooks() {
 
@@ -36,7 +40,12 @@ class BookListViewModel(
                     onRetrieveBookListError(t)
                 }
             )
+        bookListAdapter.bookClickListener = this
+    }
 
+
+    override fun onItemClickListener(book:Book) {
+        itemClicked.onNext(book)
     }
 
     private fun onRetrieveBookListStart() {

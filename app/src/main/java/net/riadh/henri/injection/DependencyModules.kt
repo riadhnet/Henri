@@ -21,7 +21,7 @@ object DependencyModules {
 
         viewModel { BookListViewModel(get() as BookRepositoryImpl, get()) }
 
-        viewModel { BookViewModel() }
+        viewModel { BookViewModel(get()) }
 
         // provided web components
         single { createOkHttpClient() }

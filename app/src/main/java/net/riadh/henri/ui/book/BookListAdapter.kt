@@ -4,13 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import io.reactivex.subjects.PublishSubject
 import net.riadh.henri.R
 import net.riadh.henri.databinding.ItemBookBinding
 import net.riadh.henri.model.Book
+import net.riadh.henri.ui.book.listener.BookClickListener
 
 
-class BookListAdapter : RecyclerView.Adapter<BookListAdapter.ViewHolder>() {
+open class BookListAdapter : RecyclerView.Adapter<BookListAdapter.ViewHolder>() {
     private lateinit var bookList: List<Book>
+    lateinit var bookClickListener: BookClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookListAdapter.ViewHolder {
         val binding: ItemBookBinding =
@@ -31,12 +34,19 @@ class BookListAdapter : RecyclerView.Adapter<BookListAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    class ViewHolder(private val binding: ItemBookBinding) : RecyclerView.ViewHolder(binding.root) {
-        private val viewModel = BookViewModel()
+    inner class ViewHolder(private val binding: ItemBookBinding) : RecyclerView.ViewHolder(binding.root),
+        BookClickListener {
+        override fun onItemClickListener(book:Book) {
+            bookClickListener.onItemClickListener(book)
+        }
 
+        private val viewModel = BookViewModel(bookClickListener)
         fun bind(book: Book) {
             viewModel.bind(book)
             binding.viewModel = viewModel
+
         }
+
+
     }
 }

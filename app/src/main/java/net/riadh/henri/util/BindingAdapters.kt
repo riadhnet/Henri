@@ -55,8 +55,8 @@ fun setImageUrl(iv: ImageView, url: String) {
                 .load(url)
                 .apply(options)
                 .into(iv)
-        } catch (ignored: Exception) {
-
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
     }

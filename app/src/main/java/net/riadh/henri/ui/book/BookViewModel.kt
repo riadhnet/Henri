@@ -3,15 +3,18 @@ package net.riadh.henri.ui.book
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import net.riadh.henri.model.Book
+import net.riadh.henri.ui.book.listener.BookClickListener
 import net.riadh.henri.util.getFormattedPrice
 
-class BookViewModel : ViewModel() {
+class BookViewModel(val bookClickListener: BookClickListener) : ViewModel() {
     private val bookTitle = MutableLiveData<String>()
     private val bookCover = MutableLiveData<String>()
     private val bookIsbn = MutableLiveData<String>()
     private val bookPrice = MutableLiveData<String>()
+    private lateinit var mBook: Book
 
     fun bind(book: Book) {
+        this.mBook = book
         bookTitle.value = book.title
         bookCover.value = book.cover
         bookIsbn.value = book.isbn
@@ -33,6 +36,11 @@ class BookViewModel : ViewModel() {
     fun getBookPrice(): MutableLiveData<String> {
         return bookPrice
     }
+
+    fun onReadSummaryClick() {
+        bookClickListener.onItemClickListener(mBook)
+    }
+
 
 }
 

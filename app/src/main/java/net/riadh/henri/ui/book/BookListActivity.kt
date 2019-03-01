@@ -1,6 +1,7 @@
 package net.riadh.henri.ui.book
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -26,6 +27,7 @@ class BookListActivity : AppCompatActivity() {
 
     private var errorSnackbar: Snackbar? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_book_list)
@@ -45,10 +47,15 @@ class BookListActivity : AppCompatActivity() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_cart, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
     private fun showSummary(book: Book) {
         MaterialDialog(this).show {
             title(text = book.title)
-            listItems (items = book.synopsis)
+            listItems(items = book.synopsis)
             positiveButton(android.R.string.ok)
         }
     }

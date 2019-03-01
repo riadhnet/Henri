@@ -11,5 +11,6 @@
     <string name="read_summary">
         <u>Read Summary…</u>
     </string>
+    <string name="cart">cart</string>
 
 </resources>

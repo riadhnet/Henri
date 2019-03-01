@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.listItems
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -47,7 +48,7 @@ class BookListActivity : AppCompatActivity() {
     private fun showSummary(book: Book) {
         MaterialDialog(this).show {
             title(text = book.title)
-            message(text = book.synopsis[0])
+            listItems (items = book.synopsis)
             positiveButton(android.R.string.ok)
         }
     }

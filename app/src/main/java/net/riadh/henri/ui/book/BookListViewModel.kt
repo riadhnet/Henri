@@ -17,6 +17,7 @@ class BookListViewModel(
     private val exceptionUtil: ExceptionUtilInterface
 ) : ViewModel(), BookClickListener {
 
+
     private lateinit var subscription: Disposable
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val errorMessage: MutableLiveData<String> = MutableLiveData()
@@ -25,7 +26,9 @@ class BookListViewModel(
 
     val errorClickListener = View.OnClickListener { loadBooks() }
 
-    val itemClicked :PublishSubject<Book> = PublishSubject.create()
+    val readSummaryClicked: PublishSubject<Book> = PublishSubject.create()
+
+    val addToCartClicked: PublishSubject<Book> = PublishSubject.create()
 
     fun loadBooks() {
 
@@ -44,8 +47,12 @@ class BookListViewModel(
     }
 
 
-    override fun onItemClickListener(book:Book) {
-        itemClicked.onNext(book)
+    override fun onReadSummaryClickListener(book: Book) {
+        readSummaryClicked.onNext(book)
+    }
+
+    override fun onAddToCart(book: Book) {
+        addToCartClicked.onNext(book)
     }
 
     private fun onRetrieveBookListStart() {

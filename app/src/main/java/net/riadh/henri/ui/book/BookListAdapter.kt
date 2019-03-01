@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import io.reactivex.subjects.PublishSubject
 import net.riadh.henri.R
 import net.riadh.henri.databinding.ItemBookBinding
 import net.riadh.henri.model.Book
@@ -36,8 +35,12 @@ open class BookListAdapter : RecyclerView.Adapter<BookListAdapter.ViewHolder>() 
 
     inner class ViewHolder(private val binding: ItemBookBinding) : RecyclerView.ViewHolder(binding.root),
         BookClickListener {
-        override fun onItemClickListener(book:Book) {
-            bookClickListener.onItemClickListener(book)
+        override fun onAddToCart(book: Book) {
+            bookClickListener.onAddToCart(book)
+        }
+
+        override fun onReadSummaryClickListener(book: Book) {
+            bookClickListener.onReadSummaryClickListener(book)
         }
 
         private val viewModel = BookViewModel(bookClickListener)

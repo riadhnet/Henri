@@ -2,6 +2,8 @@ package net.riadh.henri.ui.book
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -18,7 +20,10 @@ import net.riadh.henri.databinding.ActivityBookListBinding
 import net.riadh.henri.model.Book
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BookListActivity : AppCompatActivity() {
+
+class BookListActivity : AppCompatActivity(), View.OnClickListener {
+
+
     private val disposable = CompositeDisposable()
 
     private lateinit var binding: ActivityBookListBinding
@@ -41,16 +46,40 @@ class BookListActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         viewModel.loadBooks()
 
-        disposable.add(viewModel.itemClicked.subscribeOn(Schedulers.io())
+        disposable.add(
+            viewModel.readSummaryClicked.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { book -> showSummary(book) })
 
+        disposable.add(viewModel.addToCartClicked.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnError { e -> e.printStackTrace() }
+            .subscribe({ book -> addToCart(book) }, { throwable -> throwable.printStackTrace() })
+        )
+
+
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu_cart, menu)
-        return super.onCreateOptionsMenu(menu)
+
+        for (i in 0 until menu.size()) {
+            val item = menu.getItem(i)
+            if (item.itemId == R.id.action_cart) {
+                item.actionView?.setOnClickListener(this)
+            }
+        }
+
+        return true
     }
+
+    override fun onClick(p0: View?) {
+        //open cart
+        Toast.makeText(this, "cart", Toast.LENGTH_SHORT).show()
+    }
+
 
     private fun showSummary(book: Book) {
         MaterialDialog(this).show {
@@ -58,6 +87,10 @@ class BookListActivity : AppCompatActivity() {
             listItems(items = book.synopsis)
             positiveButton(android.R.string.ok)
         }
+    }
+
+    private fun addToCart(book: Book) {
+        Toast.makeText(this, "fff", Toast.LENGTH_SHORT).show()
     }
 
     private fun showError(errorMessage: String) {

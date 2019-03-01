@@ -38,7 +38,11 @@ class BookViewModel(val bookClickListener: BookClickListener) : ViewModel() {
     }
 
     fun onReadSummaryClick() {
-        bookClickListener.onItemClickListener(mBook)
+        bookClickListener.onReadSummaryClickListener(mBook)
+    }
+
+    fun addToCartClick() {
+        bookClickListener.onAddToCart(mBook)
     }
 
 

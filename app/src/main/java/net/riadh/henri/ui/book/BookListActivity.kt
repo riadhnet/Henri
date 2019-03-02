@@ -1,10 +1,10 @@
 package net.riadh.henri.ui.book
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
@@ -21,6 +21,7 @@ import net.riadh.henri.R
 import net.riadh.henri.app.MAX_CART
 import net.riadh.henri.databinding.ActivityBookListBinding
 import net.riadh.henri.model.Book
+import net.riadh.henri.ui.cart.CartActivity
 import net.riadh.henri.util.SharedPrefManager
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -67,6 +68,10 @@ class BookListActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+    override fun onResume() {
+        updateCartText()
+        super.onResume()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
@@ -90,8 +95,8 @@ class BookListActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(p0: View?) {
-        //open cart
-        Toast.makeText(this, "cart", Toast.LENGTH_SHORT).show()
+        val mIntent = Intent(this, CartActivity::class.java)
+        startActivity(mIntent)
     }
 
 
@@ -117,7 +122,10 @@ class BookListActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun updateCartText() {
-        cardNumberTxt.text = prefs.getBooks().size.toString()
+        if (this::cardNumberTxt.isInitialized) {
+            cardNumberTxt.text = prefs.getBooks().size.toString()
+        }
+
     }
 
     private fun showError(errorMessage: String) {

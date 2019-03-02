@@ -16,6 +16,7 @@ buildscript {
     ext.glide_version = '4.7.1'
     ext.material_dialog_version = '2.0.3'
     ext.rx_prefs_version = '1.2.5'
+    ext.v4_support_version = '1.0.0'
     repositories {
         google()
         jcenter()
@@ -34,6 +35,14 @@ allprojects {
         google()
         jcenter()
 
+    }
+}
+
+subprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << '-Xmaxerrs' << '500'
+        }
     }
 }
 

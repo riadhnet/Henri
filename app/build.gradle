@@ -55,6 +55,7 @@ dependencies {
 
     // Constraint Layout
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    implementation "androidx.legacy:legacy-support-v4:$v4_support_version"
 
     //Koin
     implementation "org.koin:koin-androidx-scope:$koin_version"
@@ -72,4 +73,5 @@ dependencies {
 
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+
 }

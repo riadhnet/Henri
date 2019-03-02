@@ -19,6 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.cart.CartActivity"
+                  android:configChanges="orientation|screenSize">
+        </activity>
     </application>
 
 </manifest>

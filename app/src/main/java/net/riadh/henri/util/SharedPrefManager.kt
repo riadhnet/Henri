@@ -31,7 +31,10 @@ open class SharedPrefManager(context: Context) {
         } catch (e: IOException) {
             ArrayList()
         }
+    }
 
+    open fun clearCart() {
+        myString.delete()
     }
 
 

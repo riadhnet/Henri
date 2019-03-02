@@ -14,5 +14,10 @@
     <string name="cart">cart</string>
     <string name="cart_limit">Cart Limit</string>
     <string name="cart_limit_text">Sorry you reached your cart limit</string>
+    <string name="final_price">Final Price :</string>
+    <string name="books">Books :</string>
+    <string name="discount">Discount :</string>
+    <string name="buy">Buy</string>
+    <string name="clear_cart">Clear Cart</string>
 
 </resources>

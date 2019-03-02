@@ -3,8 +3,10 @@ package net.riadh.henri.ui.book
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,13 +18,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import net.riadh.henri.R
+import net.riadh.henri.app.MAX_CART
 import net.riadh.henri.databinding.ActivityBookListBinding
 import net.riadh.henri.model.Book
+import net.riadh.henri.util.SharedPrefManager
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class BookListActivity : AppCompatActivity(), View.OnClickListener {
-
 
     private val disposable = CompositeDisposable()
 
@@ -32,6 +36,9 @@ class BookListActivity : AppCompatActivity(), View.OnClickListener {
 
     private var errorSnackbar: Snackbar? = null
 
+    private val prefs: SharedPrefManager by inject()
+
+    private lateinit var cardNumberTxt: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +55,8 @@ class BookListActivity : AppCompatActivity(), View.OnClickListener {
 
         disposable.add(
             viewModel.readSummaryClicked.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { book -> showSummary(book) })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { book -> showSummary(book) })
 
         disposable.add(viewModel.addToCartClicked.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -69,6 +76,13 @@ class BookListActivity : AppCompatActivity(), View.OnClickListener {
             val item = menu.getItem(i)
             if (item.itemId == R.id.action_cart) {
                 item.actionView?.setOnClickListener(this)
+
+                for (j in 0 until (item.actionView as ConstraintLayout).childCount) {
+                    if ((item.actionView as ConstraintLayout).getChildAt(j).id == R.id.cart_number) {
+                        cardNumberTxt = ((item.actionView as ConstraintLayout).getChildAt(j) as TextView)
+                        updateCartText()
+                    }
+                }
             }
         }
 
@@ -90,7 +104,20 @@ class BookListActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun addToCart(book: Book) {
-        Toast.makeText(this, "fff", Toast.LENGTH_SHORT).show()
+        if (prefs.getBooks().size >= MAX_CART) {
+            MaterialDialog(this).show {
+                title(R.string.cart_limit)
+                message(R.string.cart_limit_text)
+                positiveButton(android.R.string.ok)
+            }
+        } else {
+            prefs.addBook(book)
+            updateCartText()
+        }
+    }
+
+    private fun updateCartText() {
+        cardNumberTxt.text = prefs.getBooks().size.toString()
     }
 
     private fun showError(errorMessage: String) {

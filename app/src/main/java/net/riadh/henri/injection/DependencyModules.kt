@@ -7,6 +7,7 @@ import net.riadh.henri.ui.book.BookListViewModel
 import net.riadh.henri.ui.book.BookViewModel
 import net.riadh.henri.util.ExceptionUtil
 import net.riadh.henri.util.ExceptionUtilInterface
+import net.riadh.henri.util.SharedPrefManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
@@ -18,6 +19,8 @@ object DependencyModules {
         single { BookRepositoryImpl(get()) }
 
         single { ExceptionUtil(androidContext()) as ExceptionUtilInterface }
+
+        single { SharedPrefManager(androidContext()) }
 
         viewModel { BookListViewModel(get() as BookRepositoryImpl, get()) }
 

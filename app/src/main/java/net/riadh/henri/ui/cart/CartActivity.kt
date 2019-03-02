@@ -61,9 +61,9 @@ class CartActivity : AppCompatActivity() {
             title(R.string.clear_cart)
             message(R.string.clear_cart_warning)
             positiveButton(android.R.string.yes) { dialog ->
-                dialog.dismiss()
                 prefs.clearCart()
-                onBackPressed()
+                dialog.dismiss()
+                finish()
             }
             negativeButton(android.R.string.cancel)
         }

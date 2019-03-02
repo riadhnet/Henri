@@ -71,6 +71,10 @@ dependencies {
     //SharedPrefs
     implementation "com.afollestad:rxkprefs:$rx_prefs_version"
 
+    //MockK & core testing
+    testImplementation "io.mockk:mockk:$mockk_version"
+    testImplementation "androidx.arch.core:core-testing:$core_testing_version"
+
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
 

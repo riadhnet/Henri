@@ -35,7 +35,11 @@ class CartViewModel(
 
     private val books = prefs.getBooks()
 
-    private var priceDouble = getInitialPrice().toDouble()
+    var priceDouble = getInitialPrice().toDouble()
+
+    var bestDiscount: Double = 0.0
+
+    var finalPriceDouble: Double = 0.0
 
     fun loadOffers() {
 
@@ -54,7 +58,7 @@ class CartViewModel(
             )
     }
 
-    private fun getOfferArray(): String {
+    fun getOfferArray(): String {
         val isbn = ArrayList<String>()
         books.forEach {
             isbn.add(it.isbn)
@@ -84,8 +88,8 @@ class CartViewModel(
     }
 
     private fun onRetrieveOffersListSuccess(result: Offers) {
-        val bestDiscount = getBestDiscount(result.offers)
-        val finalPriceDouble = priceDouble - bestDiscount
+        bestDiscount = getBestDiscount(result.offers)
+        finalPriceDouble = priceDouble - bestDiscount
 
         discount.value = getFormattedPrice(bestDiscount)
         finalPrice.value = getFormattedPrice(finalPriceDouble)

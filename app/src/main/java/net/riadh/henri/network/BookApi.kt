@@ -20,5 +20,5 @@ interface BookApi {
      * Get the list of the pots from the API
      */
     @GET("/books/{isbn}/commercialOffers")
-    fun getOffer(@Path("isbn") isbnsArray: String): Observable<List<Offers>>
+    fun getOffers(@Path("isbn") isbnsArray: String): Observable<Offers>
 }

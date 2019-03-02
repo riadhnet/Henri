@@ -11,7 +11,7 @@
     <string name="read_summary">
         <u>Read Summary…</u>
     </string>
-    <string name="cart">cart</string>
+    <string name="cart">Cart</string>
     <string name="cart_limit">Cart Limit</string>
     <string name="cart_limit_text">Sorry you reached your cart limit</string>
     <string name="final_price">Final Price :</string>

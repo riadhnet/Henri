@@ -1,7 +1,7 @@
 package net.riadh.henri.ui.cart
 
 import android.os.Bundle
-import android.widget.TextView
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -28,13 +28,14 @@ class CartActivity : AppCompatActivity() {
 
     private val prefs: SharedPrefManager by inject()
 
-    private lateinit var cardNumberTxt: TextView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_cart)
         binding.bookList.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
 
         viewModel.errorMessage.observe(this, Observer { errorMessage ->
             if (errorMessage != null) showError(errorMessage) else hideError()
@@ -43,6 +44,14 @@ class CartActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         viewModel.loadOffers()
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val itemId = item.itemId
+        if (itemId == android.R.id.home) {
+            onBackPressed()
+        }
+        return true
     }
 
 

@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import net.riadh.henri.model.Book
+import net.riadh.henri.model.OfferType
+import net.riadh.henri.model.Offers
 import net.riadh.henri.repository.BookRepositoryImpl
 import net.riadh.henri.util.ExceptionUtilInterface
 import net.riadh.henri.util.SharedPrefManager
+import net.riadh.henri.util.getFormattedPrice
 
 class CartViewModel(
     private val bookApi: BookRepositoryImpl,
@@ -29,11 +31,14 @@ class CartViewModel(
 
     private val books = prefs.getBooks()
 
+    private var priceDouble = getInitialPrice().toDouble()
+
+
     fun loadOffers() {
 
-        price.value = getInitialPrice().toString()
+        price.value = getFormattedPrice(getInitialPrice())
 
-        subscription = bookApi.getBooks()
+        subscription = bookApi.getOffers(getOfferArray())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { onRetrieveOffersListStart() }
@@ -44,6 +49,14 @@ class CartViewModel(
                     onRetrieveOffersListError(t)
                 }
             )
+    }
+
+    private fun getOfferArray(): String {
+        val isbn = ArrayList<String>()
+        books.forEach {
+            isbn.add(it.isbn)
+        }
+        return isbn.toString().replace(" ", "").drop(1).dropLast(1)
     }
 
     private fun getInitialPrice(): Int {
@@ -68,8 +81,55 @@ class CartViewModel(
         loadingVisibility.value = View.GONE
     }
 
-    private fun onRetrieveOffersListSuccess(result: List<Book>) {
-        // bookListAdapter.updateBookList(result)
+
+    private fun onRetrieveOffersListSuccess(result: Offers) {
+        var finalPriceF = priceDouble
+
+        var minus = 0.0
+        var percentage = 0.0
+        var slice = 0
+
+        result.offers.forEach {
+            when (it.type.toUpperCase()) {
+                OfferType.MINUS.name -> {
+                    minus = it.value.toDouble()
+                }
+
+                OfferType.PERCENTAGE.name -> {
+                    percentage = minusPercentage(it.value)
+                }
+
+                OfferType.SLICE.name -> {
+                    slice = sliceValue(it.sliceValue, it.value)
+                }
+            }
+        }
+
+        var discountF = minus
+        if (discountF < percentage) {
+            discountF = percentage
+        }
+        if (discountF < slice) {
+            discountF = slice.toDouble()
+        }
+
+        finalPriceF -= (discountF)
+
+        discount.value = getFormattedPrice(discountF)
+        finalPrice.value = getFormattedPrice(finalPriceF)
+
+    }
+
+    private fun sliceValue(sliceValue: Int, value: Int): Int {
+        return (priceDouble / sliceValue).toInt() * value
+    }
+
+    private fun minusPercentage(value: Int): Double {
+        return priceDouble / 100 * value
+    }
+
+    private fun minusValue(value: Int): Double {
+        return priceDouble.minus(value)
     }
 
     private fun onRetrieveOffersListError(error: Throwable) {

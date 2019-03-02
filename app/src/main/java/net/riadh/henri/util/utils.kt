@@ -11,3 +11,11 @@ fun getFormattedPrice(value: Int): String {
     format.minimumFractionDigits = format.currency.defaultFractionDigits
     return format.format(value)
 }
+
+fun getFormattedPrice(value: Double): String {
+    val format = NumberFormat.getCurrencyInstance(Locale.getDefault())
+    //https://www2.1010data.com/documentationcenter/beta/1010dataUsersGuide/DataTypesAndFormats/currencyUnitCodes.html
+    format.currency = Currency.getInstance("EUR")
+    format.minimumFractionDigits = format.currency.defaultFractionDigits
+    return format.format(value)
+}

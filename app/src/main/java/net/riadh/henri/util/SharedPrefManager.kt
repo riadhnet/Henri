@@ -20,13 +20,7 @@ open class SharedPrefManager(context: Context) {
         .adapter<List<Book>>(Types.newParameterizedType(List::class.java, Book::class.javaObjectType))
 
     open fun addBook(book: Book) {
-        var books: ArrayList<Book>
-        try {
-            books = jsonAdapter.fromJson(myString.get()) as ArrayList<Book>
-        } catch (e: IOException) {
-            books = ArrayList()
-        }
-
+        val books = getBooks()
         books.add(book)
         myString.set(jsonAdapter.toJson(books))
     }

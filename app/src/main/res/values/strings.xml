@@ -19,5 +19,6 @@
     <string name="discount">Discount :</string>
     <string name="buy">Buy</string>
     <string name="clear_cart">Clear Cart</string>
+    <string name="clear_cart_warning">Are you sure about cleaning the cart ?</string>
 
 </resources>

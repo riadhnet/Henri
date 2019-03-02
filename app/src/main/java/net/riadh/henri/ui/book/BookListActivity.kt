@@ -95,6 +95,9 @@ class BookListActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(p0: View?) {
+        if (prefs.getBooks().size == 0) {
+            return
+        }
         val mIntent = Intent(this, CartActivity::class.java)
         startActivity(mIntent)
     }

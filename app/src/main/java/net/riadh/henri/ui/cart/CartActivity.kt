@@ -7,10 +7,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.snackbar.Snackbar
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import net.riadh.henri.R
 import net.riadh.henri.databinding.ActivityCartBinding
+import net.riadh.henri.util.SharedPrefManager
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -23,6 +28,8 @@ class CartActivity : AppCompatActivity() {
     private val viewModel: CartViewModel by viewModel()
 
     private var errorSnackbar: Snackbar? = null
+
+    private val prefs: SharedPrefManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +47,26 @@ class CartActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         viewModel.loadOffers()
 
+
+        disposable.add(viewModel.clearCartClicked.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnError { e -> e.printStackTrace() }
+            .subscribe { clearCart() }
+        )
+
+    }
+
+    private fun clearCart() {
+        MaterialDialog(this).show {
+            title(R.string.clear_cart)
+            message(R.string.clear_cart_warning)
+            positiveButton(android.R.string.yes) { dialog ->
+                dialog.dismiss()
+                prefs.clearCart()
+                onBackPressed()
+            }
+            negativeButton(android.R.string.cancel)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

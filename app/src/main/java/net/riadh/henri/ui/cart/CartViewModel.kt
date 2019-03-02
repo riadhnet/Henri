@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import net.riadh.henri.model.Offer
 import net.riadh.henri.model.OfferType
 import net.riadh.henri.model.Offers
@@ -17,7 +18,7 @@ import net.riadh.henri.util.getFormattedPrice
 class CartViewModel(
     private val bookApi: BookRepositoryImpl,
     private val exceptionUtil: ExceptionUtilInterface,
-    private val prefs: SharedPrefManager
+    prefs: SharedPrefManager
 ) : ViewModel() {
 
     private lateinit var subscription: Disposable
@@ -30,10 +31,11 @@ class CartViewModel(
     val price: MutableLiveData<String> = MutableLiveData()
     val finalPrice: MutableLiveData<String> = MutableLiveData()
 
+    val clearCartClicked: PublishSubject<Int> = PublishSubject.create()
+
     private val books = prefs.getBooks()
 
     private var priceDouble = getInitialPrice().toDouble()
-
 
     fun loadOffers() {
 
@@ -69,7 +71,7 @@ class CartViewModel(
     }
 
     fun clearCart() {
-        prefs.clearCart()
+        clearCartClicked.onNext(0)
     }
 
     private fun onRetrieveOffersListStart() {

@@ -11,8 +11,6 @@ import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import net.riadh.henri.R
 import net.riadh.henri.databinding.ActivityCartBinding
-import net.riadh.henri.util.SharedPrefManager
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -25,8 +23,6 @@ class CartActivity : AppCompatActivity() {
     private val viewModel: CartViewModel by viewModel()
 
     private var errorSnackbar: Snackbar? = null
-
-    private val prefs: SharedPrefManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

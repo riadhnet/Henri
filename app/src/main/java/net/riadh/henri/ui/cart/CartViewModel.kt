@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import net.riadh.henri.model.Offer
 import net.riadh.henri.model.OfferType
 import net.riadh.henri.model.Offers
 import net.riadh.henri.repository.BookRepositoryImpl
@@ -71,7 +72,6 @@ class CartViewModel(
         prefs.clearCart()
     }
 
-
     private fun onRetrieveOffersListStart() {
         errorMessage.value = null
         loadingVisibility.value = View.VISIBLE
@@ -81,18 +81,24 @@ class CartViewModel(
         loadingVisibility.value = View.GONE
     }
 
-
     private fun onRetrieveOffersListSuccess(result: Offers) {
-        var finalPriceF = priceDouble
+        val bestDiscount = getBestDiscount(result.offers)
+        val finalPriceDouble = priceDouble - bestDiscount
+
+        discount.value = getFormattedPrice(bestDiscount)
+        finalPrice.value = getFormattedPrice(finalPriceDouble)
+    }
+
+    private fun getBestDiscount(offers: List<Offer>): Double {
 
         var minus = 0.0
         var percentage = 0.0
         var slice = 0
 
-        result.offers.forEach {
+        offers.forEach {
             when (it.type.toUpperCase()) {
                 OfferType.MINUS.name -> {
-                    minus = it.value.toDouble()
+                    minus = minusValue(it.value)
                 }
 
                 OfferType.PERCENTAGE.name -> {
@@ -105,19 +111,14 @@ class CartViewModel(
             }
         }
 
-        var discountF = minus
-        if (discountF < percentage) {
-            discountF = percentage
+        var discountValue = minus
+        if (discountValue < percentage) {
+            discountValue = percentage
         }
-        if (discountF < slice) {
-            discountF = slice.toDouble()
+        if (discountValue < slice) {
+            discountValue = slice.toDouble()
         }
-
-        finalPriceF -= (discountF)
-
-        discount.value = getFormattedPrice(discountF)
-        finalPrice.value = getFormattedPrice(finalPriceF)
-
+        return discountValue
     }
 
     private fun sliceValue(sliceValue: Int, value: Int): Int {
@@ -129,7 +130,7 @@ class CartViewModel(
     }
 
     private fun minusValue(value: Int): Double {
-        return priceDouble.minus(value)
+        return value.toDouble()
     }
 
     private fun onRetrieveOffersListError(error: Throwable) {

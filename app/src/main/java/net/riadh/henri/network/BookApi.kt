@@ -11,13 +11,13 @@ import retrofit2.http.Path
  */
 interface BookApi {
     /**
-     * Get the list of the pots from the API
+     * Get the list of the books from the API
      */
     @GET("/books")
     fun getBooks(): Observable<List<Book>>
 
     /**
-     * Get the list of the pots from the API
+     * Get the list of the commercial offer of selected books from the API
      */
     @GET("/books/{isbn}/commercialOffers")
     fun getOffers(@Path("isbn") isbnsArray: String): Observable<Offers>

@@ -50,6 +50,5 @@ open class BookListAdapter : RecyclerView.Adapter<BookListAdapter.ViewHolder>() 
 
         }
 
-
     }
 }

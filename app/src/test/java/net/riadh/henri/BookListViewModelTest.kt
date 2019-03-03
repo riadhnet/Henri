@@ -8,7 +8,6 @@ import io.mockk.spyk
 import io.mockk.verify
 import io.reactivex.Observable
 import net.riadh.henri.model.Book
-import net.riadh.henri.model.Offer
 import net.riadh.henri.repository.BookRepositoryImpl
 import net.riadh.henri.ui.book.BookListViewModel
 import net.riadh.henri.util.ExceptionUtilInterface
@@ -41,18 +40,6 @@ class BookListViewModelTest {
         Book("cover.jpg", "isbn", 29, listOf("desc1", "desc2"), "book1")
 
     private val bookList = listOf(book1, book2, book3, book4)
-
-
-    private val offer1 =
-        Offer("percentage", 0, 5)
-
-    private val offer2 =
-        Offer("minus", 0, 15)
-
-    private val offer3 =
-        Offer("percentage", 0, 12)
-
-    private val offers = listOf(offer1, offer2, offer3)
 
 
     @Before
@@ -88,8 +75,6 @@ class BookListViewModelTest {
         bookListViewModel.loadBooks()
         //THEN
         verify { bookListViewModel invoke "onRetrieveBookListError" withArguments listOf(x) }
-
-
     }
 
 }

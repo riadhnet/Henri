@@ -11,16 +11,14 @@ open class ExceptionUtil(private val context: Context) : ExceptionUtilInterface 
 
     override fun showError(throwable: Throwable): String {
 
-        if (throwable is HttpException) {
-            when (throwable.code()) {
+        when (throwable) {
+            is HttpException -> when (throwable.code()) {
                 404 -> return context.getString(R.string.not_found)
                 401 -> return context.getString(R.string.not_authorized)
                 else -> handleApiError(throwable.response().errorBody()!!)
             }
-        } else if (throwable is ConnectException) {
-            return context.getString(R.string.check_internet)
-        } else if (throwable is SecurityException) {
-            return context.getString(R.string.security_exception)
+            is ConnectException -> return context.getString(R.string.check_internet)
+            is SecurityException -> return context.getString(R.string.security_exception)
         }
 
         return context.getString(R.string.call_error)

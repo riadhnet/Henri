@@ -6,7 +6,7 @@ import net.riadh.henri.model.Book
 import net.riadh.henri.ui.book.listener.BookClickListener
 import net.riadh.henri.util.getFormattedPrice
 
-class BookViewModel(val bookClickListener: BookClickListener) : ViewModel() {
+class BookViewModel(private val bookClickListener: BookClickListener) : ViewModel() {
     private val bookTitle = MutableLiveData<String>()
     private val bookCover = MutableLiveData<String>()
     private val bookIsbn = MutableLiveData<String>()

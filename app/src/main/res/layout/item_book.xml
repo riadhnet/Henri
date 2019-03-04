@@ -77,10 +77,10 @@
                 android:id="@+id/imageView"
                 tools:ignore="ContentDescription" android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintBottom_toTopOf="@+id/view"/>
-        <ImageView
+        <ImageButton
                 android:onClick="@{()-> viewModel.addToCartClick()}"
-                android:layout_width="35dp"
-                android:layout_height="33dp"
+                android:layout_width="76dp"
+                android:layout_height="47dp"
                 app:srcCompat="@drawable/ic_add_shopping"
                 android:id="@+id/imageView2"
                 app:layout_constraintEnd_toEndOf="parent"

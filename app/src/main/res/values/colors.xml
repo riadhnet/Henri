@@ -6,4 +6,16 @@
     <color name="red_dark">#5F021F</color>
     <color name="grey">#d3d3d3</color>
     <color name="black">#000000</color>
+
+    <color name="white_smoke">#fff7f7f7</color>
+    <color name="white">#ffffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="main_color_gray_dk">#ff44352d</color>
+    <color name="main_color_gray_dk1">#ff5b5252</color>
+    <color name="main_color_gray">#ffd4a270</color>
+    <color name="main_color_gray_lt">#ffa1a1a1</color>
+    <color name="gray_light">#ffdcd8d8</color>
+    <color name="main_gray_dk">#ff8a7b7b</color>
+    <color name="main_gray_lt">#ffb9abab</color>
+
 </resources>

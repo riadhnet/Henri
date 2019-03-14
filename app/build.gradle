@@ -49,6 +49,7 @@ dependencies {
     //Rx
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxjava_android_version"
+    implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0-alpha2'
 
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:$android_recyclerview_version"
@@ -75,7 +76,12 @@ dependencies {
     testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "androidx.arch.core:core-testing:$core_testing_version"
 
+    //firebase
+    implementation 'com.google.firebase:firebase-core:16.0.7'
+
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
 
 }
+
+apply plugin: 'com.google.gms.google-services'

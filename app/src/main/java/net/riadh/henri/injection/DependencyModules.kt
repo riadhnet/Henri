@@ -6,6 +6,7 @@ import net.riadh.henri.repository.BookRepositoryImpl
 import net.riadh.henri.ui.book.BookListViewModel
 import net.riadh.henri.ui.book.BookViewModel
 import net.riadh.henri.ui.cart.CartViewModel
+import net.riadh.henri.ui.template.TemplateViewModel
 import net.riadh.henri.util.ExceptionUtil
 import net.riadh.henri.util.ExceptionUtilInterface
 import net.riadh.henri.util.SharedPrefManager
@@ -28,6 +29,8 @@ object DependencyModules {
         viewModel { CartViewModel(get() as BookRepositoryImpl, get(), get()) }
 
         viewModel { BookViewModel(get()) }
+
+        viewModel { TemplateViewModel() }
 
         // provided web components
         single { createOkHttpClient() }

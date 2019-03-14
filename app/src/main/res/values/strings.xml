@@ -20,5 +20,9 @@
     <string name="buy">Buy</string>
     <string name="clear_cart">Clear Cart</string>
     <string name="clear_cart_warning">Are you sure about cleaning the cart ?</string>
+    <string name="user_name">User Name</string>
+    <string name="room_name">Room Name</string>
+    <string name="room_password">Room Password</string>
+    <string name="login">Login</string>
 
 </resources>

@@ -26,6 +26,13 @@
                 android:name=".ui.book.BookListActivity"
                 android:configChanges="orientation|screenSize">
         </activity>
+
+
+        <activity
+                android:name=".ui.login.LoginActivity"
+                android:configChanges="orientation|screenSize">
+        </activity>
+
         <activity
                 android:name=".ui.cart.CartActivity"
                 android:configChanges="orientation|screenSize"

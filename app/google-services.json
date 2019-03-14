@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "3720194724",
+    "firebase_url": "https://qa-game.firebaseio.com",
+    "project_id": "qa-game",
+    "storage_bucket": "qa-game.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3720194724:android:ec3aa6736fa8b4da",
+        "android_client_info": {
+          "package_name": "net.riadh.henri"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "3720194724-oisbc6o7fu14i12lmh9pt620p44j49to.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrf9B5OZ39Jn8XBeOWJkJgvtVE3evhvsU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

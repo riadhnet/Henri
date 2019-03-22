@@ -1,10 +1,13 @@
 package net.riadh.henri.ui.login
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import net.riadh.henri.R
 import net.riadh.henri.databinding.ActivityLoginBinding
 import net.riadh.henri.util.SharedPrefManager
@@ -31,6 +34,13 @@ class LoginActivity : AppCompatActivity() {
 
         binding.viewModel = viewModel
         viewModel.initData()
+
+
+        disposable.add(viewModel.roomClick.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnError { e -> e.printStackTrace() }
+            .subscribe { room -> Toast.makeText(this, room.roomName, Toast.LENGTH_LONG).show() }
+        )
 
     }
 

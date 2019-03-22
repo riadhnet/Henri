@@ -29,7 +29,7 @@ class LoginViewModel : ViewModel() {
     val roomClick: PublishSubject<RoomLogin> = PublishSubject.create()
 
     val database = FirebaseDatabase.getInstance()
-    val myRef = database.getReference("qa-game")
+    val myRef = database.reference
     private var auth = FirebaseAuth.getInstance()
     fun initData() {
         //init subscription
@@ -50,7 +50,6 @@ class LoginViewModel : ViewModel() {
         }
 
 
-
     }
 
 
@@ -60,8 +59,22 @@ class LoginViewModel : ViewModel() {
     }
 
     fun login() {
+
+
+//        val key = myRef.child("room").key
+//
+//        val room = Room("testRoom", "1234", listOf(), key!!);
+//
+//        myRef.child("room").push().setValue(room)
+
         if (validateInput()) {
 
+            val roomLogin = RoomLogin(
+                userName.value.toString(),
+                roomName.value.toString(),
+                roomPassword.value.toString(),
+                null
+            )
 
             val roomInfoQuery = myRef.child("room");
 
@@ -72,7 +85,19 @@ class LoginViewModel : ViewModel() {
                     enabledInput.value = true
                     loadingVisibility.value = View.GONE
                     for (postSnapshot in dataSnapshot.children) {
-                        Log.i("test", "size= " + postSnapshot.childrenCount)
+
+                        if (postSnapshot.child("name").value?.equals(roomLogin.roomName)!! && postSnapshot.child("password").value?.equals(
+                                roomLogin.roomPassword
+                            )!!
+                        ) {
+                            roomLogin.uuid = postSnapshot.key
+                            roomClick.onNext(
+                                roomLogin
+                            )
+                            break
+                        }
+                        Log.i("test", "value =" + postSnapshot.value)
+                        // Log.i("test", "size= " + postSnapshot.childrenCount)
                     }
                 }
 
@@ -86,14 +111,6 @@ class LoginViewModel : ViewModel() {
             })
 
 
-
-            roomClick.onNext(
-                RoomLogin(
-                    userName.value.toString(),
-                    roomName.value.toString(),
-                    roomPassword.value.toString()
-                )
-            )
         }
     }
 

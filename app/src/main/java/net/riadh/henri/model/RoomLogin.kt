@@ -4,5 +4,6 @@ package net.riadh.henri.model
 data class RoomLogin(
     val userName: String,
     val roomName: String,
-    val roomPassword: String
+    val roomPassword: String,
+    var uuid: String?
 )

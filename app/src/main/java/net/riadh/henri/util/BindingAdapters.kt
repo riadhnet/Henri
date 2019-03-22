@@ -32,6 +32,15 @@ fun setMutableText(view: TextView, text: MutableLiveData<String>?) {
     }
 }
 
+@BindingAdapter("enableView")
+fun setEnableView(view: TextView, enabled: MutableLiveData<Boolean>?) {
+    val parentActivity: AppCompatActivity? = view.getParentActivity()
+    if (parentActivity != null && enabled != null) {
+        enabled.observe(parentActivity, Observer { value -> view.isEnabled = value ?: true })
+    }
+}
+
+
 @BindingAdapter("adapter")
 fun setAdapter(view: RecyclerView, adapter: RecyclerView.Adapter<*>) {
     view.adapter = adapter

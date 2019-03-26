@@ -34,6 +34,11 @@
         </activity>
 
         <activity
+                android:name=".ui.room.RoomActivity"
+                android:configChanges="orientation|screenSize">
+        </activity>
+
+        <activity
                 android:name=".ui.cart.CartActivity"
                 android:configChanges="orientation|screenSize"
                 android:label="@string/cart">

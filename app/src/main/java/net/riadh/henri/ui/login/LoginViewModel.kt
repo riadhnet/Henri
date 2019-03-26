@@ -49,7 +49,6 @@ class LoginViewModel : ViewModel() {
             }
         }
 
-
     }
 
 
@@ -105,12 +104,10 @@ class LoginViewModel : ViewModel() {
                     // Getting Post failed, log a message
                     enabledInput.value = true
                     loadingVisibility.value = View.GONE
-                    Log.w("test", "loadPost:onCancelled", databaseError.toException())
+                    Log.w("test", "databaseError", databaseError.toException())
                     // ...
                 }
             })
-
-
         }
     }
 
